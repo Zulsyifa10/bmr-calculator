@@ -101,7 +101,6 @@ Tidak ada package tambahan di luar bawaan Flutter.
 |------|-------|
 | ![Form](screenshots/form.png) | ![Hasil](screenshots/result.png) |
 
-> Ganti dengan screenshot aplikasi kalian (simpan di folder `screenshots/`).
 
 ## Catatan
 
