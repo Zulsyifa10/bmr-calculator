@@ -1,30 +1,41 @@
-// This is a basic Flutter widget test.
+// widget_test.dart
+// Penanggung jawab: Anggota B
 //
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+// Widget test untuk halaman kalkulator: hasil muncul setelah tombol Hitung,
+// dan pesan error muncul jika usia di luar rentang. Jalankan: flutter test
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:bmr_calculator/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('Hasil muncul setelah tombol Hitung ditekan', (tester) async {
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Awalnya belum ada hasil
+    expect(find.text('Hasil'), findsNothing);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    await tester.ensureVisible(find.text('Hitung'));
+    await tester.tap(find.text('Hitung'));
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('Hasil'), findsOneWidget);
+  });
+
+  testWidgets('Usia di luar rentang menampilkan pesan error', (tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    // TextField pertama adalah kolom usia
+    await tester.enterText(find.byType(TextField).first, '10');
+
+    await tester.ensureVisible(find.text('Hitung'));
+    await tester.tap(find.text('Hitung'));
+    await tester.pump();
+
+    expect(
+      find.text('Usia harus diisi antara 15 sampai 80 tahun.'),
+      findsOneWidget,
+    );
+    expect(find.text('Hasil'), findsNothing);
   });
 }
